@@ -34,7 +34,7 @@ class Section_1():
 		ts2_list = list(target_string2)
 
 		for i in range(len(ts1_list)) :   #文字数分繰り返す
-			ans = ans + ts1_list[i] + ts2_list[i]
+			ans += ts1_list[i] + ts2_list[i]
 
 		print(ans)
 
@@ -71,6 +71,58 @@ class Section_1():
 				ans_dict[int(i)+1] = ts_list[i][0:2] #単語の先頭の2文字を取得
 		
 		pprint(ans_dict)
+
+
+	def ss5(self):
+		target_string = 'I am an NLPer'
+		bi_word_list = []
+		bi_cha_list =[]
+
+		ts_list = target_string.split(' ') #分ち書きで区切ってリスト化
+			
+		#バイグラム単語リストの生成
+		for i in range(len(ts_list)-1):
+			bi_word_list.append(ts_list[i]+ts_list[i+1]) 
+
+		#バイグラム文字リストの生成
+		ts = target_string.replace(' ','') #分ち書き処理
+		for i in range(len(ts)-1):
+			bi_cha_list.append(ts[i]+ts[i+1])
+
+
+		print('バイグラム単語:', bi_word_list)
+		print('バイグラム文字:', bi_cha_list)
+
+
+	def ss6(self):
+
+		'''
+		[to do]
+		リストと集合って初めに宣言が必要だっけ？？？？
+		'''
+
+
+		target_string1 = 'paraparaparadise'
+		target_string2 = 'paragraph'
+		#空リストの宣言
+		x_bi_char_list = [] #target_string1の文字バイグラムリスト
+		y_bi_char_list = [] #target_string2の文字バイグラムリスト
+		#空集合の宣言
+		x_bi_char_set = set()
+		y_bi_char_set = set()
+
+		for i in range(len(target_string1)-1):
+			x_bi_char_list.append(target_string1[i]+target_string1[i+1]) 
+
+		for i in range(len(target_string2)-1):
+			y_bi_char_list.append(target_string2[i]+target_string2[i+1]) 	
+
+		x_bi_char_set = set(x_bi_char_list)
+		y_bi_char_set = set(y_bi_char_list)	
+
+		#和集合
+		print('和集合 :',x_bi_char_set | y_bi_char_set)
+
 
 		
 
