@@ -173,13 +173,48 @@ class Section_1():
 
 	#Typoglycemia
 	def ss9(self):
+		from numpy import random 
+
 		target_string = "I couldn't believe that I could actually understand what I was reading : the phenomenal power of the human mind ."
-		ts_list = target_string.split(' ') #分ち書きで区切ってリスト化		
+		ts_list = target_string.split(' ') #分ち書きで区切ってリスト化	
+		shuffled_string = "" #シャッフル後の文を入力	
 
 		for i in range(len(ts_list)):
-			if 4 < len(ts_list[i]): #単語の文字の長さが4以上の場合のみ処理する
-				#真ん中の文字をランダムにするアルゴリズムを書く
+			shuffled_word = ''
+			'''
+			単語の文字の長さが4以上の場合のみ、各単語の先頭と末尾の文字は残し，
+			それ以外の文字の順序をランダムに並び替える
+			'''
+			if 4 < len(ts_list[i]): 
+				#単語のオリジナルは"ts_list[i]"より呼び出し可能
+				char_list = list(ts_list[i]) #対象の単語を一文字ずつリスト化
+				
+				'''
+				[方針]
+				数字配列[0~]を必要な部分だけシャッフルする
+				'''
+				
+				#シャッフルする範囲の数値リスト[1~]を生成
+				num_list =list(range(1,len(char_list)-1))
+				random.shuffle(num_list)	#リストの数値をシャッフル
+				#リストの最初と最後に0と"文字数-1"の数値を追加
+				num_list.insert(0,0)
+				num_list.append(len(list(ts_list[i]))-1)
 
+				#リスト化されていたものを一つに再形成
+				for j in range(len(num_list)):
+					shuffled_word += char_list[num_list[j]]
+
+				#リストのオリジナルとシャッフル後の単語を入れ替える
+				#以後、リストのオリジナルはこのfor文内より呼び出し不可
+				ts_list[i] = shuffled_word
+			else:
+				pass
+				
+		#最後にリスト化したものを再形成
+		for k in range(len(ts_list)):
+			shuffled_string += ts_list[k] + ' '
+		print(shuffled_string)
 
 
 
