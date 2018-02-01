@@ -3,6 +3,7 @@
 
 class Section_1(): 
 
+	#文字列の逆順
 	def ss0(self):
 		target_string = 'stressed'
 		ans = ''	#これが無いとforループ内で怒られる
@@ -15,7 +16,7 @@ class Section_1():
 
 		print(ans)
 
-
+	#「パタトクカシーー」	
 	def ss1(self):
 		target_string = 'パタトクカシーー'
 
@@ -24,7 +25,7 @@ class Section_1():
 
 		print(ans)
 
-
+	#「パトカー」+「タクシー」＝「パタトクカシーー」
 	def ss2(self):
 		target_string1 = 'パトカー'
 		target_string2 = 'タクシー'
@@ -38,7 +39,7 @@ class Section_1():
 
 		print(ans)
 
-
+	#円周率
 	def ss3(self):
 		target_string = 'Now I need a drink, alcoholic of course, after the heavy lectures involving quantum mechanics.'
 
@@ -51,7 +52,7 @@ class Section_1():
 
 		print(ts_list)
 
-
+	#元素記号
 	def ss4(self):
 		from pprint import pprint
 
@@ -72,7 +73,7 @@ class Section_1():
 		
 		pprint(ans_dict)
 
-
+	#n-gram
 	def ss5(self):
 		target_string = 'I am an NLPer'
 		bi_word_list = []
@@ -93,38 +94,94 @@ class Section_1():
 		print('バイグラム単語:', bi_word_list)
 		print('バイグラム文字:', bi_cha_list)
 
-
+	#集合
 	def ss6(self):
-
-		'''
-		[to do]
-		リストと集合って初めに宣言が必要だっけ？？？？
-		'''
-
-
 		target_string1 = 'paraparaparadise'
 		target_string2 = 'paragraph'
 		#空リストの宣言
 		x_bi_char_list = [] #target_string1の文字バイグラムリスト
 		y_bi_char_list = [] #target_string2の文字バイグラムリスト
-		#空集合の宣言
-		x_bi_char_set = set()
-		y_bi_char_set = set()
+
 
 		for i in range(len(target_string1)-1):
+			#文字バイグラムをリストに入れる
 			x_bi_char_list.append(target_string1[i]+target_string1[i+1]) 
 
 		for i in range(len(target_string2)-1):
+			#文字バイグラムをリストに入れる
 			y_bi_char_list.append(target_string2[i]+target_string2[i+1]) 	
 
+		#リスト → 集合
 		x_bi_char_set = set(x_bi_char_list)
 		y_bi_char_set = set(y_bi_char_list)	
 
 		#和集合
 		print('和集合 :',x_bi_char_set | y_bi_char_set)
+		#積集合
+		print('積集合 :',x_bi_char_set & y_bi_char_set)
+		#差集合
+		print('差集合 :',x_bi_char_set - y_bi_char_set)
+
+		#'se'がXリストに含まれているか調べる
+		if 'se' in x_bi_char_list :
+			print('Xに"se"が含まれています。')
+		else:
+			print('Xに"se"は含まれていません。')
+
+		#'se'がYリストに含まれているか調べる
+		if 'se' in y_bi_char_list :
+			print('Yに"se"が含まれています。')
+		else:
+			print('Yに"se"は含まれていません。')
+
+	#テンプレートによる文生成
+	def ss7(self):
+		x = input('引数xを入力:')
+		y = input('引数yを入力:')
+		z = input('引数zを入力:')
+
+		print(x,'時の',y,'は',z)
+
+	#暗号文生成
+	def ss8(self):
+		target = input('平文を入力 :')
+		#指定された"cipher"関数に平文を投げる
+		cipher_text = self.cipher(target)
+
+		print('暗号文 :', cipher_text)
 
 
-		
+	#ss8で利用する指定関数 暗号文の生成を行う
+	def cipher(self,target):
+		import re
+	
+		cipher_text = ''
+		target_list = list(target)
+		for i in range(len(target_list)):
+			if re.search('[a-z]',target_list[i]): 	#正規表現で英小文字判定
+				#ord()で文字コードのポイントを返して、chr()で文字コードのポイントから文字に変換
+				target_list[i] = chr(219 - ord(target_list[i])) 
+
+			else: #非英小文字の場合は何もしない
+				pass
+
+		for i in range(len(target_list)) :   #リストを全て結合する
+			cipher_text += target_list[i]
+
+		return cipher_text
+
+
+	#Typoglycemia
+	def ss9(self):
+		target_string = "I couldn't believe that I could actually understand what I was reading : the phenomenal power of the human mind ."
+		ts_list = target_string.split(' ') #分ち書きで区切ってリスト化		
+
+		for i in range(len(ts_list)):
+			if 4 < len(ts_list[i]): #単語の文字の長さが4以上の場合のみ処理する
+				#真ん中の文字をランダムにするアルゴリズムを書く
+
+
+
 
 
 num = input('サブセクション番号入力:')
