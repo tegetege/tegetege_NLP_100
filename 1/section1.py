@@ -1,5 +1,12 @@
 #http://www.cl.ecei.tohoku.ac.jp/nlp100/
 
+'''
+言語処理100本ノック
+第1章：準備運動
+00番 - 09番
+
+'''
+
 
 class Section_1(): 
 
@@ -210,7 +217,7 @@ class Section_1():
 				ts_list[i] = shuffled_word
 			else:
 				pass
-				
+
 		#最後にリスト化したものを再形成
 		for k in range(len(ts_list)):
 			shuffled_string += ts_list[k] + ' '
