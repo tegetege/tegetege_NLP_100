@@ -201,7 +201,7 @@ class Section_2():
 			'''
 			[to do!!!]
 			このクソコードをどうにかする。
-			
+
 			'''
 			#辞書のキーを見て、同一のキーがあるかどうかの判定
 			if row_1.get(lines[i].split('\t')[0]) == None :
@@ -214,6 +214,7 @@ class Section_2():
 				
 				add_dic = {lines[i].split('\t')[0]:row_1.get(lines[i].split('\t')[0]) +1}
 				row_1.update(add_dic)
+
 
 
 
