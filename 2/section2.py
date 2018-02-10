@@ -190,35 +190,51 @@ class Section_2():
 
 	#各行の1コラム目の文字列の出現頻度を降順に表示
 	def ss9(self):
-		#辞書で一つずつ数える
+		'''
+		方針
+		・辞書で一つずつ数える
+		・キー値の降順にキーを表示する
+		'''
 
+		#データの数え上げで利用する辞書
 		row_1 = {} #dic
 
+		#データの読み取りと、リスト化
 		data = self.file_read()
 		lines = data.split('\n')
 
+		#データの数え上げを行う
 		for i in range(len(lines)):
-			'''
-			[to do!!!]
-			このクソコードをどうにかする。
-
-			'''
 			#辞書のキーを見て、同一のキーがあるかどうかの判定
 			if row_1.get(lines[i].split('\t')[0]) == None :
-				print('同じものなし')
-				#要素を+1
-				add_dic = {lines[i].split('\t')[0]:1}
-				row_1.update(add_dic)
+				#print('同じものなし')
+				#辞書型にデータを形成
+				key = lines[i].split('\t')[0]
+
+				add_dic = {key:1}
+				row_1.update(add_dic)#辞書登録
 			else:
-				print('同じものあり')
-				
-				add_dic = {lines[i].split('\t')[0]:row_1.get(lines[i].split('\t')[0]) +1}
-				row_1.update(add_dic)
+				#print('同じものあり')
+				#キー値を+1
+				#辞書型にデータを形成
+				key = lines[i].split('\t')[0]
+				value = row_1.get(lines[i].split('\t')[0])
+
+				add_dic = {key :value +1}
+				row_1.update(add_dic)#辞書登録
+
+		#使用頻度の高い順にキーを表示する
+		for (k,v) in sorted(row_1.items(), key=lambda x: -x[1]):
+			print('キー: ',k , '値: ',v)
+			'''
+			このソート方法については、以下のサイトを参照
+			https://qiita.com/n10432/items/e0315979286ea9121d57
+
+			無名関数"lambda"はよくわからずじまい...
+			'''
 
 
-
-
-		print(row_1)
+			
 
 num = input('サブセクション番号入力:')
 do  = Section_2()
