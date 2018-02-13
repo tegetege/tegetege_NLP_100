@@ -81,6 +81,24 @@ class Section_3():
 
 	#セクション構造
 	def ss3(self):
+		import re
+
+		data = self.read_json()
+		lines = data.split('\n')
+
+		pattern1 = r'='
+
+		for i in range(len(lines)):
+			matchOB_1 = re.match(pattern1,lines[i])
+			if matchOB_1 :
+				#パターンにマッチした全てをリストとして返す
+				matchedlist = re.findall(pattern1,lines[i])
+				if matchedlist:
+					#リストをカウントして ÷2
+					section_num = int(len(matchedlist)/2)
+					#セクション名のみ抜き出す
+					section_name = lines[i].replace(matchOB_1.group(),'')
+					print(section_num,' : ',section_name)
 
 
 
