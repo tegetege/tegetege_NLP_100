@@ -134,9 +134,27 @@ class Section_3():
 				file_name_list = file_name.split('|')
 				print(file_name_list[0])
 
+	#テンプレートの抽出
+	def ss5(self):
+		import re
 
+		data = self.read_json()
+		lines = data.split('\n')
+		#テンプレートを使っている行の抜き出し
+		#()で正規表現のグループ化,コードの可読性を上げるために利用
+		pattern_1 = r'^\|(\w*)(\s*)='
+		temple_dic = {}
 
+		for i in range(len(lines)):
+			matchOB_1 = re.findall(pattern_1,lines[i])
 
+			if matchOB_1 :
+				temple = lines[i].replace('|','')
+				temple_list = temple.split('=',1)
+				temple_dic[temple_list[0]] = temple_list[1] #辞書に格納完了
+		print('辞書に格納完了')
+		for item in temple_dic :
+			print(item,':',temple_dic[item]) 
 
 num = input('サブセクション番号入力:')
 do  = Section_3()
