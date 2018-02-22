@@ -1,5 +1,10 @@
 import json
+'''
+>wikiのマークアップ早見表
 
+wikiのデータ形式に関することは以下のリンク先に書かれている
+https://ja.wikipedia.org/wiki/Help:%E6%97%A9%E8%A6%8B%E8%A1%A8
+'''
 
 class Section_3():
 
@@ -87,18 +92,49 @@ class Section_3():
 		lines = data.split('\n')
 
 		pattern1 = r'='
+		print('レベル : セクション名')
 
 		for i in range(len(lines)):
 			matchOB_1 = re.match(pattern1,lines[i])
 			if matchOB_1 :
-				#パターンにマッチした全てをリストとして返す
+				#パターンにマッチした全てをリストとして返す,"="がリストに含まれる
 				matchedlist = re.findall(pattern1,lines[i])
 				if matchedlist:
 					#リストをカウントして ÷2
 					section_num = int(len(matchedlist)/2)
-					#セクション名のみ抜き出す
+					#セクション名のみ抜き出す,リプレイスで空白にして要らない部分を除去
 					section_name = lines[i].replace(matchOB_1.group(),'')
 					print(section_num,' : ',section_name)
+
+	#ファイル参照の抽出
+	def ss4(self):
+		import re
+
+		data = self.read_json()
+		lines = data.split('\n')
+		#以下の2つのパターンで書かれている,カンマ以下を抜き出したい
+		pattern_1 = r'\[\[File:'
+		pattern_2 = r'\[\[ファイル:'
+
+		for i in range(len(lines)):
+
+			matchOB_1 = re.match(pattern_1,lines[i])
+			matchOB_2 = re.match(pattern_2,lines[i])
+
+			if matchOB_1 :
+				#pattern_1分を消去
+				file_name = lines[i].replace(matchOB_1.group(),'')
+				#"|"でスプリットしリスト化して、その0要素目を呼び出す
+				file_name_list = file_name.split('|')
+				print(file_name_list[0])
+
+
+			elif matchOB_2 :
+				file_name = lines[i].replace(matchOB_2.group(),'')
+				file_name_list = file_name.split('|')
+				print(file_name_list[0])
+
+
 
 
 
