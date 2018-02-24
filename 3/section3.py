@@ -156,6 +156,41 @@ class Section_3():
 		for item in temple_dic :
 			print(item,':',temple_dic[item]) 
 
+	#ss5と同じ動き,最後に辞書を返す
+	def return_dic(self):
+		import re
+
+		data = self.read_json()
+		lines = data.split('\n')
+		#テンプレートを使っている行の抜き出し
+		#()で正規表現のグループ化,コードの可読性を上げるために利用
+		pattern_1 = r'^\|(\w*)(\s*)='
+		temple_dic = {}
+
+		for i in range(len(lines)):
+			matchOB_1 = re.findall(pattern_1,lines[i])
+
+			if matchOB_1 :
+				temple = lines[i].replace('|','')
+				temple_list = temple.split('=',1)
+				temple_dic[temple_list[0]] = temple_list[1] #辞書に格納完了
+		print('辞書に格納完了')
+		return temple_dic
+
+	#強調マークアップの除去
+	def ss6(self):
+		import re
+
+		data = self.read_json()
+		lines = data.split('\n')
+
+		temple_dic = self.return_dic()
+
+		for item in temple_dic :
+			temple_dic[item] = temple_dic[item].replace('\'','')
+			print(item,':',temple_dic[item]) 			
+
+
 num = input('サブセクション番号入力:')
 do  = Section_3()
 ss_num = 'ss' + str(num)
