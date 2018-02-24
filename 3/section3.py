@@ -113,8 +113,8 @@ class Section_3():
 		data = self.read_json()
 		lines = data.split('\n')
 		#以下の2つのパターンで書かれている,カンマ以下を抜き出したい
-		pattern_1 = r'\[\[File:'
-		pattern_2 = r'\[\[ファイル:'
+		pattern_1 = r'\[\[File:'     #正規表現パターン
+		pattern_2 = r'\[\[ファイル:'   #正規表現パターン
 
 		for i in range(len(lines)):
 
@@ -142,7 +142,7 @@ class Section_3():
 		lines = data.split('\n')
 		#テンプレートを使っている行の抜き出し
 		#()で正規表現のグループ化,コードの可読性を上げるために利用
-		pattern_1 = r'^\|(\w*)(\s*)='
+		pattern_1 = r'^\|(\w*)(\s*)=' #正規表現パターン
 		temple_dic = {}
 
 		for i in range(len(lines)):
@@ -157,7 +157,7 @@ class Section_3():
 			print(item,':',temple_dic[item]) 
 
 	#ss5と同じ動き,最後に辞書を返す
-	def return_dic(self):
+	def return_dic_ss5(self):
 		import re
 
 		data = self.read_json()
@@ -181,14 +181,41 @@ class Section_3():
 	def ss6(self):
 		import re
 
+		#ss5の処理を行った辞書を受け取る
+		temple_dic = self.return_dic_ss5()
+
+		for item in temple_dic :
+			temple_dic[item] = temple_dic[item].replace('\'','') #置換
+			print(item,':',temple_dic[item]) 			
+
+	#ss6と同じ動き,最後に辞書を返す
+	def return_dic_ss6(self):
+		import re
+
 		data = self.read_json()
 		lines = data.split('\n')
 
-		temple_dic = self.return_dic()
+		temple_dic = self.return_dic_ss5()
 
 		for item in temple_dic :
 			temple_dic[item] = temple_dic[item].replace('\'','')
-			print(item,':',temple_dic[item]) 			
+		return temple_dic
+
+	#内部リンクの除去
+	def ss7(self):
+		#内部リンクは"[[]]"で覆われている
+
+		import re
+		#ss6の処理を行った辞書を受け取る
+		temple_dic = self.return_dic_ss6()
+
+		pattern_1 =r'\[\[' #正規表現パターン
+		for item in temple_dic :
+			matchOB_1 = re.findall(pattern_1,temple_dic[item])
+			if matchOB_1:
+				#大括弧を置換
+				temple_dic[item] = temple_dic[item].replace('[[','').replace(']]','')
+			print(item,':',temple_dic[item]) 
 
 
 num = input('サブセクション番号入力:')
