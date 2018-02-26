@@ -217,6 +217,28 @@ class Section_3():
 				temple_dic[item] = temple_dic[item].replace('[[','').replace(']]','')
 			print(item,':',temple_dic[item]) 
 
+	#ss7と同じ動き,最後に辞書を返す
+	def return_dic_ss7(self):
+		import re
+		#ss6の処理を行った辞書を受け取る
+		temple_dic = self.return_dic_ss6()
+
+		pattern_1 =r'\[\[' #正規表現パターン
+		for item in temple_dic :
+			matchOB_1 = re.findall(pattern_1,temple_dic[item])
+			if matchOB_1:
+				#大括弧を置換
+				temple_dic[item] = temple_dic[item].replace('[[','').replace(']]','')
+		return temple_dic
+
+	#Media Wiki マークアップの除去
+	def ss8(self):
+		import re
+		#ss7の処理を行った辞書を受け取る
+		temple_dic = self.return_dic_ss7()
+
+
+
 
 num = input('サブセクション番号入力:')
 do  = Section_3()
