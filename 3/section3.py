@@ -174,7 +174,6 @@ class Section_3():
 				temple = lines[i].replace('|','')
 				temple_list = temple.split('=',1)
 				temple_dic[temple_list[0]] = temple_list[1] #辞書に格納完了
-		print('辞書に格納完了')
 		return temple_dic
 
 	#強調マークアップの除去
@@ -233,11 +232,79 @@ class Section_3():
 
 	#Media Wiki マークアップの除去
 	def ss8(self):
+		'''
+		除去すべきマークアップの例
+
+		ex1)公式国名  :  {{langenUnited Kingdom of Great Britain and Northern Ireland}}<ref>
+		ex2)人口値  :  63,181,775<ref>['外部リンク']</ref>
+		ex3)GDP値MER  :  2兆4337億<ref name="imf-statistics-gdp" />
+		(※)ex3)で除去対象になるURLには'数字'を含むものも存在する
+		'''
+
 		import re
 		#ss7の処理を行った辞書を受け取る
 		temple_dic = self.return_dic_ss7()
+		
+		#正規表現のリスト化
+		#pattern_list[3]と[4]の順序が逆だと成功しない 消す順序が大事な正規表現
+		pattern_list = ["{{","}}","<\w*>","<ref[\D*[0-9]*]","<ref\D*","</ref>","\[\D*\]","<br\D*/>"]
+
+		for item in temple_dic :
+			for count in range(len(pattern_list)) :
+				#re.findallは一致したものをリストで返す
+				matchOB = re.findall(pattern_list[count],temple_dic[item])
+				if matchOB :
+					#print('------ マッチ!! ------',matchOB) #確認用
+					#一致した内容はmatchOBにリストとして格納されているので、0番目の要素指定で取り出す
+					temple_dic[item] = temple_dic[item].replace(matchOB[0],'') 
+			print(item,':',temple_dic[item]) 
+		
 
 
+		'''
+		!!!!  最初に書いた、'ダメ'なコードだけどわかりやすい  !!!!
+
+
+		pattern_1 = r'{{'        #ex1)の一部の正規表現
+		pattern_2 = r'<\w*>'	 #<ref>を見つける正規表現
+		pattern_3 = r'<ref[\D*|[0-9]*]|<ref\D*|</ref>'	 #ex2)とex3)の正規表現 #3つの正規表現
+		pattern_4 = r'\[\D*\]'
+		pattern_5 = r'<br\D*/>'  #"<br />"の正規表現
+
+		for item in temple_dic :
+			#パターン1の置換作業
+			matchOB_1 = re.findall(pattern_1,temple_dic[item])
+			if matchOB_1:
+				temple_dic[item] = temple_dic[item].replace('{{','').replace('}}','')
+				#print('----- matchOB_1を実行 -----',matchOB_1)
+
+			#パターン2の置換作業
+			matchOB_2 = re.findall(pattern_2,temple_dic[item])
+			if matchOB_2:
+				temple_dic[item] = temple_dic[item].replace(matchOB_2[0],'')
+				#print('----- matchOB_2を実行 -----',matchOB_2)
+
+			#パターン3の置換作業
+			matchOB_3 = re.findall(pattern_3,temple_dic[item])
+			if matchOB_3:
+				#パターン3のみ複数の正規表現をまとめたので、for文でmatchOB_3リスト分を置換する
+				for i in range(len(matchOB_3)):
+					temple_dic[item] = temple_dic[item].replace(matchOB_3[i],'')
+				#print('----- matchOB_3を実行 -----',matchOB_3)
+
+			#パターン4の置換作業
+			matchOB_4 = re.findall(pattern_4,temple_dic[item])
+			if matchOB_4:
+				temple_dic[item] = temple_dic[item].replace(matchOB_4[0],'')
+				#print('----- matchOB_4を実行 -----',matchOB_4)
+
+			matchOB_5 = re.findall(pattern_5,temple_dic[item])
+			if matchOB_5:
+				temple_dic[item] = temple_dic[item].replace(matchOB_5[0],'')
+				#print('----- matchOB_5を実行 -----',matchOB_5)
+
+			print(item,':',temple_dic[item]) 
+		'''
 
 
 num = input('サブセクション番号入力:')
