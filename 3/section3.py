@@ -143,18 +143,18 @@ class Section_3():
 		#テンプレートを使っている行の抜き出し
 		#()で正規表現のグループ化,コードの可読性を上げるために利用
 		pattern_1 = r'^\|(\w*)(\s*)=' #正規表現パターン
-		temple_dic = {}
+		temp_dic = {}
 
 		for i in range(len(lines)):
 			matchOB_1 = re.findall(pattern_1,lines[i])
 
 			if matchOB_1 :
-				temple = lines[i].replace('|','')
-				temple_list = temple.split('=',1)
-				temple_dic[temple_list[0]] = temple_list[1] #辞書に格納完了
+				temp = lines[i].replace('|','')
+				temp_list = temp.split('=',1)
+				temp_dic[temp_list[0]] = temp_list[1] #辞書に格納完了
 		print('辞書に格納完了')
-		for item in temple_dic :
-			print(item,':',temple_dic[item]) 
+		for item in temp_dic :
+			print(item,':',temp_dic[item]) 
 
 	#ss5と同じ動き,最後に辞書を返す
 	def return_dic_ss5(self):
@@ -165,27 +165,27 @@ class Section_3():
 		#テンプレートを使っている行の抜き出し
 		#()で正規表現のグループ化,コードの可読性を上げるために利用
 		pattern_1 = r'^\|(\w*)(\s*)='
-		temple_dic = {}
+		temp_dic = {}
 
 		for i in range(len(lines)):
 			matchOB_1 = re.findall(pattern_1,lines[i])
 
 			if matchOB_1 :
-				temple = lines[i].replace('|','')
-				temple_list = temple.split('=',1)
-				temple_dic[temple_list[0]] = temple_list[1] #辞書に格納完了
-		return temple_dic
+				temp = lines[i].replace('|','')
+				temp_list = temp.split('=',1)
+				temp_dic[temp_list[0]] = temp_list[1] #辞書に格納完了
+		return temp_dic
 
 	#強調マークアップの除去
 	def ss6(self):
 		import re
 
 		#ss5の処理を行った辞書を受け取る
-		temple_dic = self.return_dic_ss5()
+		temp_dic = self.return_dic_ss5()
 
-		for item in temple_dic :
-			temple_dic[item] = temple_dic[item].replace('\'','') #置換
-			print(item,':',temple_dic[item]) 			
+		for item in temp_dic :
+			temp_dic[item] = temp_dic[item].replace('\'','') #置換
+			print(item,':',temp_dic[item]) 			
 
 	#ss6と同じ動き,最後に辞書を返す
 	def return_dic_ss6(self):
@@ -194,11 +194,11 @@ class Section_3():
 		data = self.read_json()
 		lines = data.split('\n')
 
-		temple_dic = self.return_dic_ss5()
+		temp_dic = self.return_dic_ss5()
 
-		for item in temple_dic :
-			temple_dic[item] = temple_dic[item].replace('\'','')
-		return temple_dic
+		for item in temp_dic :
+			temp_dic[item] = temp_dic[item].replace('\'','')
+		return temp_dic
 
 	#内部リンクの除去
 	def ss7(self):
@@ -206,29 +206,29 @@ class Section_3():
 
 		import re
 		#ss6の処理を行った辞書を受け取る
-		temple_dic = self.return_dic_ss6()
+		temp_dic = self.return_dic_ss6()
 
 		pattern_1 =r'\[\[' #正規表現パターン
-		for item in temple_dic :
-			matchOB_1 = re.findall(pattern_1,temple_dic[item])
+		for item in temp_dic :
+			matchOB_1 = re.findall(pattern_1,temp_dic[item])
 			if matchOB_1:
 				#大括弧を置換
-				temple_dic[item] = temple_dic[item].replace('[[','').replace(']]','')
-			print(item,':',temple_dic[item]) 
+				temp_dic[item] = temp_dic[item].replace('[[','').replace(']]','')
+			print(item,':',temp_dic[item]) 
 
 	#ss7と同じ動き,最後に辞書を返す
 	def return_dic_ss7(self):
 		import re
 		#ss6の処理を行った辞書を受け取る
-		temple_dic = self.return_dic_ss6()
+		temp_dic = self.return_dic_ss6()
 
 		pattern_1 =r'\[\[' #正規表現パターン
-		for item in temple_dic :
-			matchOB_1 = re.findall(pattern_1,temple_dic[item])
+		for item in temp_dic :
+			matchOB_1 = re.findall(pattern_1,temp_dic[item])
 			if matchOB_1:
 				#大括弧を置換
-				temple_dic[item] = temple_dic[item].replace('[[','').replace(']]','')
-		return temple_dic
+				temp_dic[item] = temp_dic[item].replace('[[','').replace(']]','')
+		return temp_dic
 
 	#Media Wiki マークアップの除去
 	def ss8(self):
@@ -243,21 +243,21 @@ class Section_3():
 
 		import re
 		#ss7の処理を行った辞書を受け取る
-		temple_dic = self.return_dic_ss7()
+		temp_dic = self.return_dic_ss7()
 		
 		#正規表現のリスト化
 		#pattern_list[3]と[4]の順序が逆だと成功しない 消す順序が大事な正規表現
 		pattern_list = ["{{","}}","<\w*>","<ref[\D*[0-9]*]","<ref\D*","</ref>","\[\D*\]","<br\D*/>"]
 
-		for item in temple_dic :
+		for item in temp_dic :
 			for count in range(len(pattern_list)) :
 				#re.findallは一致したものをリストで返す
-				matchOB = re.findall(pattern_list[count],temple_dic[item])
+				matchOB = re.findall(pattern_list[count],temp_dic[item])
 				if matchOB :
 					#print('------ マッチ!! ------',matchOB) #確認用
 					#一致した内容はmatchOBにリストとして格納されているので、0番目の要素指定で取り出す
-					temple_dic[item] = temple_dic[item].replace(matchOB[0],'') 
-			print(item,':',temple_dic[item]) 
+					temp_dic[item] = temp_dic[item].replace(matchOB[0],'') 
+			print(item,':',temp_dic[item]) 
 		
 
 
@@ -271,40 +271,82 @@ class Section_3():
 		pattern_4 = r'\[\D*\]'
 		pattern_5 = r'<br\D*/>'  #"<br />"の正規表現
 
-		for item in temple_dic :
+		for item in temp_dic :
 			#パターン1の置換作業
-			matchOB_1 = re.findall(pattern_1,temple_dic[item])
+			matchOB_1 = re.findall(pattern_1,temp_dic[item])
 			if matchOB_1:
-				temple_dic[item] = temple_dic[item].replace('{{','').replace('}}','')
+				temp_dic[item] = temp_dic[item].replace('{{','').replace('}}','')
 				#print('----- matchOB_1を実行 -----',matchOB_1)
 
 			#パターン2の置換作業
-			matchOB_2 = re.findall(pattern_2,temple_dic[item])
+			matchOB_2 = re.findall(pattern_2,temp_dic[item])
 			if matchOB_2:
-				temple_dic[item] = temple_dic[item].replace(matchOB_2[0],'')
+				temp_dic[item] = temp_dic[item].replace(matchOB_2[0],'')
 				#print('----- matchOB_2を実行 -----',matchOB_2)
 
 			#パターン3の置換作業
-			matchOB_3 = re.findall(pattern_3,temple_dic[item])
+			matchOB_3 = re.findall(pattern_3,temp_dic[item])
 			if matchOB_3:
 				#パターン3のみ複数の正規表現をまとめたので、for文でmatchOB_3リスト分を置換する
 				for i in range(len(matchOB_3)):
-					temple_dic[item] = temple_dic[item].replace(matchOB_3[i],'')
+					temp_dic[item] = temp_dic[item].replace(matchOB_3[i],'')
 				#print('----- matchOB_3を実行 -----',matchOB_3)
 
 			#パターン4の置換作業
-			matchOB_4 = re.findall(pattern_4,temple_dic[item])
+			matchOB_4 = re.findall(pattern_4,temp_dic[item])
 			if matchOB_4:
-				temple_dic[item] = temple_dic[item].replace(matchOB_4[0],'')
+				temp_dic[item] = temp_dic[item].replace(matchOB_4[0],'')
 				#print('----- matchOB_4を実行 -----',matchOB_4)
 
-			matchOB_5 = re.findall(pattern_5,temple_dic[item])
+			matchOB_5 = re.findall(pattern_5,temp_dic[item])
 			if matchOB_5:
-				temple_dic[item] = temple_dic[item].replace(matchOB_5[0],'')
+				temp_dic[item] = temp_dic[item].replace(matchOB_5[0],'')
 				#print('----- matchOB_5を実行 -----',matchOB_5)
 
-			print(item,':',temple_dic[item]) 
+			print(item,':',temp_dic[item]) 
 		'''
+
+	#ss8と同じ動き,最後に辞書を返す
+	def return_dic_ss8(self):
+		import re
+		#ss7の処理を行った辞書を受け取る
+		temp_dic = self.return_dic_ss7()
+		
+		#正規表現のリスト化
+		#pattern_list[3]と[4]の順序が逆だと成功しない 消す順序が大事な正規表現
+		pattern_list = ["{{","}}","<\w*>","<ref[\D*[0-9]*]","<ref\D*","</ref>","\[\D*\]","<br\D*/>"]
+
+		for item in temp_dic :
+			for count in range(len(pattern_list)) :
+				#re.findallは一致したものをリストで返す
+				matchOB = re.findall(pattern_list[count],temp_dic[item])
+				if matchOB :
+					#print('------ マッチ!! ------',matchOB) #確認用
+					#一致した内容はmatchOBにリストとして格納されているので、0番目の要素指定で取り出す
+					temp_dic[item] = temp_dic[item].replace(matchOB[0],'') 
+		return temp_dic
+		
+
+	#国旗画像のURLを取得する
+	def ss9(self):
+		import re
+		import requests
+		import json
+
+		temp_dic = self.return_dic_ss8()
+
+		#APIエンドポイント
+		url     = 'https://www.mediawiki.org/w/api.php'
+		payload = {'action':'query',
+				   'titles':'File:{}'.format(temp_dic['国旗画像 ']),
+				   'prop'  :'imageinfo',
+				   'format':'json',
+				   'iiprop':'url'}
+
+		ans_r_json = requests.get(url, params=payload).json() 
+
+		print(ans_r_json['query']['pages']['-1']['imageinfo'][0]['url'])
+
 
 
 num = input('サブセクション番号入力:')
