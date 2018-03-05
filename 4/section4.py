@@ -17,6 +17,7 @@ class Section_4():
 		self.word_list = [] #単語部分のリスト
 		self.morphemes = [] #形態素部分のリスト
 
+	#形態素解析結果の読み込み
 	def ss0(self):
 		'''
 		こんな感じで表現したい
@@ -75,6 +76,7 @@ class Section_4():
 			else:
 				pass
 
+	#動詞
 	def ss1(self):
 		self.make_data() #データ生成
 		for i in range(len(self.word_list)):
@@ -83,6 +85,7 @@ class Section_4():
 				print('surface',':',self.word_list[i])
 				print('pos',':',self.morphemes[i][0])
 
+	#動詞の原形
 	def ss2(self):
 		self.make_data() #データ生成
 		for i in range(len(self.word_list)):
