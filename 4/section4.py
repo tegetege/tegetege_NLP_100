@@ -12,10 +12,17 @@ class Section_4():
 	辞書にはオプションで、"mecab-ipadic-NEologd"を利用
 	'''
 
+	'''
+	[概要]
+	・neko.txt ファイルをmecabに通したものがneko.txt.mecab
+	・self.word_listはneko.txt.mecabの単語部分のリスト
+	・self.morphemesはneko.txt.mecabの形態素部分のリスト
+	'''
+
 	def __init__(self):
 		#クラス内でデータを格納するリストを管理
 		self.word_list = [] #単語部分のリスト
-		self.morphemes = [] #形態素部分のリスト
+		self.morphemes = [] #形態素部分のリスト,word_listに同期
 
 	#形態素解析結果の読み込み
 	def ss0(self):
@@ -94,6 +101,21 @@ class Section_4():
 				print('surface',':',self.word_list[i])
 				print('base',':',self.morphemes[i][6])
 
+	#サ変名詞
+	def ss3(self):
+		'''
+		>見当	名詞,サ変接続,*,*,*,*,見当,ケントウ,ケントー
+
+		これを抜き出してくれば良いだけなので難しくない
+		'''
+		self.make_data() #データ生成
+		for i in range(len(self.word_list)):
+			if self.morphemes[i][0] == '名詞' and self.morphemes[i][1] == 'サ変接続':
+				print('-------------------------')
+				print('サ変名詞',':',self.word_list[i])
+
+
+		
 
 num = input('サブセクション番号入力:')
 do  = Section_4()
