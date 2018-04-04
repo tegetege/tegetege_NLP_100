@@ -114,8 +114,24 @@ class Section_4():
 				print('-------------------------')
 				print('サ変名詞',':',self.word_list[i])
 
+	#「AのB」
+	def ss4(self):
+		'''
+		2つの名詞が「の」で連結されている名詞句を抽出せよ
+		・「の」しか入っていないword_list番号を記録して、その前後の形態素を確認する
 
-		
+		'''
+		self.make_data() #データ生成
+
+		for i in range(len(self.word_list)):
+			if self.word_list[i] == 'の':
+				if self.morphemes[i-1][0] == '名詞' and self.morphemes[i+1][0] == '名詞':
+					print('-------------------------')
+					print('番号:',i)
+					print(self.word_list[i-1],self.word_list[i],self.word_list[i+1])
+					print(self.morphemes[i-1][0],self.morphemes[i][0],self.morphemes[i+1][0])
+
+
 
 num = input('サブセクション番号入力:')
 do  = Section_4()
