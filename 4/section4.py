@@ -23,7 +23,12 @@ class Section_4():
 		#クラス内でデータを格納するリストを管理
 		self.word_list = [] #単語部分のリスト
 		self.morphemes = [] #形態素部分のリスト,word_listに同期
-
+		'''
+		(※)問題を読み違えていたため、このコメント部分はお釈迦
+		#ss5で利用変数
+		#self.longest_list_num = 0 #最も長い連接の最初のリストナンバー
+		#self.longest_count = 0	  #最も長い連接回数を記録
+		'''
 	#形態素解析結果の読み込み
 	def ss0(self):
 		'''
@@ -130,8 +135,82 @@ class Section_4():
 					print('番号:',i)
 					print(self.word_list[i-1],self.word_list[i],self.word_list[i+1])
 					print(self.morphemes[i-1][0],self.morphemes[i][0],self.morphemes[i+1][0])
+	#名詞の連接
+	def ss5(self):
+		'''
+		(※)出題内容がわからなかったため「素人の言語処理100本ノック」を
+		　　参考にさせていただきました。
+		https://qiita.com/segavvy/items/bda3a16d8bb54bd01f73
+		'''
+		self.make_data() #データ生成
+
+		noun_list = []	#重複ありのリスト
+		nouns = []		#一時的に名詞を保持するリスト
+
+		for i in range(len(self.word_list)):
+			if self.morphemes[i][0] == '名詞' :
+				nouns.append(self.word_list[i]) #一時保持
+			else:
+				#名詞ではないときは、一時保持リストからアペンドして本リストに入れる
+				if len(nouns) > 1:
+					noun_list.append(''.join(nouns))
+				nouns = [] 
+
+		nouns_set = set(noun_list) #集合化することで、重複を消す!! ⇦ これ、知った時に感動した
+		print(nouns_set)
+				
 
 
+
+	'''
+	(※)問題を読み違えていたため、このコメント部分は全てお釈迦
+	#名詞の連接
+	def ss5(self):
+		
+		#名詞の連接（連続して出現する名詞）を最長一致で抽出せよ．
+
+		#最長一致を、2つのリストを利用して実現する。
+		
+		noun_continuous_count = 0	#名詞の連接回数をカウント
+
+		self.make_data() #データ生成
+
+		for i in range(len(self.word_list)):
+			judge_ans = int(self.judge_noun(i))
+			if judge_ans == 0:
+				noun_continuous_count += 1
+			else:
+				#名詞じゃない場合はカウントリセット
+				noun_continuous_count = 0 
+			#カウント数が最長になった時にカウント数を更新する
+			self.compare_count(noun_continuous_count,i)
+		print('リスト番号 :' , self.longest_list_num)
+		print('連接回数   :' , self.longest_count)
+		start = int(self.longest_list_num)
+		end   = int(self.longest_list_num + self.longest_count)
+		print(self.word_list[start:end])
+		print(self.morphemes[start][0])
+
+	#SS5で利用関数
+	def compare_count(self,continuous_count,list_num):
+		
+		#連接回数を比較して、カウントの入れ替えが必要な時は、入れ替える
+		
+		if self.longest_count < continuous_count :
+			self.longest_count = continuous_count
+			self.longest_list_num = int(list_num - continuous_count)
+		return
+
+	#SS5で利用関数
+	def judge_noun(self,list_num):
+		
+		#形態素結果が名詞なら"1"を返して、それ以外なら"0"を返す
+		
+		if self.morphemes[list_num][0] == '名詞':
+			return 1
+		else:
+			return 0
+	'''
 
 num = input('サブセクション番号入力:')
 do  = Section_4()
