@@ -29,6 +29,7 @@ class Section_4():
 		#self.longest_list_num = 0 #最も長い連接の最初のリストナンバー
 		#self.longest_count = 0	  #最も長い連接回数を記録
 		'''
+	
 	#形態素解析結果の読み込み
 	def ss0(self):
 		'''
@@ -135,6 +136,7 @@ class Section_4():
 					print('番号:',i)
 					print(self.word_list[i-1],self.word_list[i],self.word_list[i+1])
 					print(self.morphemes[i-1][0],self.morphemes[i][0],self.morphemes[i+1][0])
+	
 	#名詞の連接
 	def ss5(self):
 		'''
@@ -159,6 +161,26 @@ class Section_4():
 		nouns_set = set(noun_list) #集合化することで、重複を消す!! ⇦ これ、知った時に感動した
 		print(nouns_set)
 				
+	#単語の出現頻度
+	def ss6(self):
+		'''
+		文章中に出現する単語とその出現頻度を求め，出現頻度の高い順に並べよ．
+		参考:http://www.freia.jp/taka/blog/356/index.html
+		'''
+		self.make_data() #データ生成
+
+		words_dic = {}
+
+		#カウンティング
+		for i in range(len(self.word_list)):
+			#.get()メソッドを利用すれば、辞書にアイテムが無い場合の初期値を設定できる
+			words_dic[self.word_list[i]] = words_dic.get(self.word_list[i],0) + 1
+
+		#辞書の降順ソート
+		for k, v in sorted(words_dic.items(), key=lambda x: -x[1]):
+			#降順 → x: -x[1] 昇順　→ x: x[1]
+			if int(v) > 500: #500以下は表示しない
+ 				print(str(k) + ": " + str(v))
 
 
 
