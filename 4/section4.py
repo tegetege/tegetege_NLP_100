@@ -182,6 +182,71 @@ class Section_4():
 			if int(v) > 500: #500以下は表示しない
  				print(str(k) + ": " + str(v))
 
+	#ss6と同じもの、最後に辞書データをreturnする
+	def sorted_word_dic(self):
+		self.make_data() #データ生成
+
+		words_dic = {}
+
+		#カウンティング
+		for i in range(len(self.word_list)):
+			#.get()メソッドを利用すれば、辞書にアイテムが無い場合の初期値を設定できる
+			words_dic[self.word_list[i]] = words_dic.get(self.word_list[i],0) + 1
+
+		#辞書の降順ソート
+		return	sorted(words_dic.items(), key=lambda x: -x[1])
+		
+
+
+	#頻度上位10語
+	def ss7(self):
+		'''
+		出現頻度が高い10語と語とその出現頻度をグラフで表示すること
+		matplotlibを利用する
+		'''
+		import matplotlib.pyplot as plt
+		import numpy as np
+		#日本語を表示するフォントを指定する
+		import matplotlib as mpl 
+		mpl.rcParams['font.family'] = 'AppleGothic'
+
+		sorted_dic = {}
+		sorted_dic = self.sorted_word_dic() #出現頻度によってソート済みのリストを受け取る
+		'''
+		sorted_dic = [('の', 9114), ('。', 7484), ('、', 6772), ....]
+		'''
+		label = []
+		count  = []
+
+		for i in range(0,10):
+			
+			label.append(sorted_dic[i][0]) #x軸
+			count.append(sorted_dic[i][1]) #y軸
+		
+		left = np.array(range(0,10))
+		height = np.array(count)
+		#print(left)
+		#print(type(left))
+		#print(height)
+		#print(type(height))
+		plt.bar(left,height,tick_label=label, align="center")
+		plt.show()
+
+	#ヒストグラム
+	def ss8(self):
+		'''
+		単語の出現頻度のヒストグラム（横軸に出現頻度，縦軸に出現頻度をとる単語の種類数を棒グラフで表したもの）を描け．
+		X軸　出現頻度
+		Y軸　単語の種類数
+
+		参考になりそうなサイト：
+		https://pythondatascience.plavox.info/matplotlib/%E3%83%92%E3%82%B9%E3%83%88%E3%82%B0%E3%83%A9%E3%83%A0
+		'''
+		import matplotlib.pyplot as plt
+		import numpy as np
+
+
+		pass
 
 
 	'''
