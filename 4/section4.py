@@ -195,9 +195,21 @@ class Section_4():
 
 		#辞書の降順ソート
 		return	sorted(words_dic.items(), key=lambda x: -x[1])
+
+	#ソートしていない単語と出現頻度の辞書データをreturnする
+	def word_dic(self):
+		self.make_data() #データ生成
+
+		words_dic = {}
+
+		#カウンティング
+		for i in range(len(self.word_list)):
+			#.get()メソッドを利用すれば、辞書にアイテムが無い場合の初期値を設定できる
+			words_dic[self.word_list[i]] = words_dic.get(self.word_list[i],0) + 1
+
+		#辞書の降順ソート
+		return	words_dic
 		
-
-
 	#頻度上位10語
 	def ss7(self):
 		'''
@@ -220,15 +232,12 @@ class Section_4():
 
 		for i in range(0,10):
 			
-			label.append(sorted_dic[i][0]) #x軸
+			label.append(sorted_dic[i][0]) #x軸の名前
 			count.append(sorted_dic[i][1]) #y軸
 		
-		left = np.array(range(0,10))
-		height = np.array(count)
-		#print(left)
-		#print(type(left))
-		#print(height)
-		#print(type(height))
+		left = np.array(range(0,10)) #x軸には、0から始まるリストを入れる
+		height = np.array(count) 
+
 		plt.bar(left,height,tick_label=label, align="center")
 		plt.show()
 
@@ -238,66 +247,63 @@ class Section_4():
 		単語の出現頻度のヒストグラム（横軸に出現頻度，縦軸に出現頻度をとる単語の種類数を棒グラフで表したもの）を描け．
 		X軸　出現頻度
 		Y軸　単語の種類数
-
+		[1]
 		参考になりそうなサイト：
 		https://pythondatascience.plavox.info/matplotlib/%E3%83%92%E3%82%B9%E3%83%88%E3%82%B0%E3%83%A9%E3%83%A0
+		[2]
+		1つのキーに複数の値が対応するハッシュを作る:
+		http://lightson.dip.jp/zope/ZWiki/1191_e3_81_a4_e3_81_ae_e3_82_ad_e3_83_bc_e3_81_ab_e8_a4_87_e6_95
+		_b0_e3_81_ae_e5_80_a4_e3_81_8c_e5_af_be_e5_bf_9c_e3_81_99_e3_82_8b_e3_83_8f_e3_83_83_e3_82_b7_e3_83
+		_a5_e3_82_92_e4_bd_9c_e3_82_8b
+
 		'''
 		import matplotlib.pyplot as plt
 		import numpy as np
+		#日本語を表示するフォントを指定する
+		import matplotlib as mpl 
+		mpl.rcParams['font.family'] = 'AppleGothic'
 
+		word_dic = {}
+		word_dic = self.word_dic() #出現頻度によってソート済みのリストを受け取る
+		hist_data = {} #ヒストグラムで利用できるようにデータを弄ったもの
 
-		pass
-
-
-	'''
-	(※)問題を読み違えていたため、このコメント部分は全てお釈迦
-	#名詞の連接
-	def ss5(self):
+		for k,v in word_dic.items():
+			hist_data.setdefault(v,[]).append(k) #サイト[2]を参考にした
+		'''
+		hist_data =
+		{...,278: ['寒月'], 974: ['です'], 97: ['ええ'], 
+		146: ['私'], 343: ['迷亭'], 433: ['…']...}
+		'''
+		hist_data_sort = sorted(hist_data.items(), key=lambda x: x[0])
+		for i in range(len(hist_data_sort)):
+			print('-------------------------')
+			print('出現回数:',hist_data_sort[i][0])
+			print('単語数:',str(len(hist_data_sort[i][1])))
 		
-		#名詞の連接（連続して出現する名詞）を最長一致で抽出せよ．
 
-		#最長一致を、2つのリストを利用して実現する。
-		
-		noun_continuous_count = 0	#名詞の連接回数をカウント
+		#Frequency =  #出現頻度
+		#word_type =  #単語の種類数
+		#print(sorted(hist_data.items(), key=lambda x: x[0])) #出現頻度で昇順ソート
 
-		self.make_data() #データ生成
 
-		for i in range(len(self.word_list)):
-			judge_ans = int(self.judge_noun(i))
-			if judge_ans == 0:
-				noun_continuous_count += 1
-			else:
-				#名詞じゃない場合はカウントリセット
-				noun_continuous_count = 0 
-			#カウント数が最長になった時にカウント数を更新する
-			self.compare_count(noun_continuous_count,i)
-		print('リスト番号 :' , self.longest_list_num)
-		print('連接回数   :' , self.longest_count)
-		start = int(self.longest_list_num)
-		end   = int(self.longest_list_num + self.longest_count)
-		print(self.word_list[start:end])
-		print(self.morphemes[start][0])
+		'''
+		plt.hist(
+			hist_data,
+			bins = 20,
+			range=(1,20))
+		plt.xlim(xmin=1, xmax=20)
+		# グラフのタイトル、ラベル指定
+		plt.title("38. ヒストグラム", fontproperties=fp)
+		plt.xlabel('出現頻度', fontproperties=fp)
+		plt.ylabel('単語の種類数', fontproperties=fp)
 
-	#SS5で利用関数
-	def compare_count(self,continuous_count,list_num):
-		
-		#連接回数を比較して、カウントの入れ替えが必要な時は、入れ替える
-		
-		if self.longest_count < continuous_count :
-			self.longest_count = continuous_count
-			self.longest_list_num = int(list_num - continuous_count)
-		return
+		# グリッドを表示
+		plt.grid(axis='y')
 
-	#SS5で利用関数
-	def judge_noun(self,list_num):
-		
-		#形態素結果が名詞なら"1"を返して、それ以外なら"0"を返す
-		
-		if self.morphemes[list_num][0] == '名詞':
-			return 1
-		else:
-			return 0
-	'''
+		# 表示
+		plt.show()
+		'''
+
 
 num = input('サブセクション番号入力:')
 do  = Section_4()
