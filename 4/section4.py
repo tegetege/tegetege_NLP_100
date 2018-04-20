@@ -265,44 +265,57 @@ class Section_4():
 
 		word_dic = {}
 		word_dic = self.word_dic() #出現頻度によってソート済みのリストを受け取る
-		hist_data = {} #ヒストグラムで利用できるようにデータを弄ったもの
+		count_frequency = {} #出現回数と、その単語のリストが入った辞書
 
 		for k,v in word_dic.items():
-			hist_data.setdefault(v,[]).append(k) #サイト[2]を参考にした
-		'''
-		hist_data =
-		{...,278: ['寒月'], 974: ['です'], 97: ['ええ'], 
-		146: ['私'], 343: ['迷亭'], 433: ['…']...}
-		'''
-		hist_data_sort = sorted(hist_data.items(), key=lambda x: x[0])
-		for i in range(len(hist_data_sort)):
-			print('-------------------------')
-			print('出現回数:',hist_data_sort[i][0])
-			print('単語数:',str(len(hist_data_sort[i][1])))
+			count_frequency.setdefault(v,[]).append(k) #サイト[2]を参考にした
 		
 
-		#Frequency =  #出現頻度
-		#word_type =  #単語の種類数
-		#print(sorted(hist_data.items(), key=lambda x: x[0])) #出現頻度で昇順ソート
+		'''
+		count_frequency =
+		{...,278: ['寒月'], 974: ['です'], 97: ['ええ'], 
+		146: ['私'], 343: ['迷亭'], 433: ['…']...}
 
+		↓
+		↓
+		
+		ヒストグラムに投げるデータ(リスト型)
+		[1,1,1,1,....,234,234,235,235,235,236,236....]
 
 		'''
+
+
+		count_frequency_sort = sorted(count_frequency.items(), key=lambda x: x[0])
+		hist_list = []
+		
+		for i in range(len(count_frequency_sort)):
+
+			for j in range(len(count_frequency_sort[i][1])):
+				#ここ頭悪い
+				#出現回数分、出現回数をリストに追加する
+				hist_list.append(int(count_frequency_sort[i][0]))
+		#ヒストグラムにデータをセットしていく		
 		plt.hist(
-			hist_data,
+			hist_list,
 			bins = 20,
 			range=(1,20))
 		plt.xlim(xmin=1, xmax=20)
+
 		# グラフのタイトル、ラベル指定
-		plt.title("38. ヒストグラム", fontproperties=fp)
-		plt.xlabel('出現頻度', fontproperties=fp)
-		plt.ylabel('単語の種類数', fontproperties=fp)
+		plt.title("38. ヒストグラム")
+		plt.xlabel('出現頻度')
+		plt.ylabel('単語の種類数')
 
 		# グリッドを表示
 		plt.grid(axis='y')
 
 		# 表示
 		plt.show()
-		'''
+		
+		
+
+
+
 
 
 num = input('サブセクション番号入力:')
