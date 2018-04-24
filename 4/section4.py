@@ -258,7 +258,6 @@ class Section_4():
 
 		'''
 		import matplotlib.pyplot as plt
-		import numpy as np
 		#日本語を表示するフォントを指定する
 		import matplotlib as mpl 
 		mpl.rcParams['font.family'] = 'AppleGothic'
@@ -311,9 +310,57 @@ class Section_4():
 
 		# 表示
 		plt.show()
-		
-		
 
+
+	#出現頻度が入ったリストが帰ってくる
+	def frequency_list(self):
+		import matplotlib.pyplot as plt
+
+		word_dic = {}
+		word_dic = self.word_dic() #出現頻度によってソート済みのリストを受け取る
+		count_frequency = {} #出現回数と、その単語のリストが入った辞書
+
+		for k,v in word_dic.items():
+			count_frequency.setdefault(v,[]).append(k) 
+
+		count_frequency_sort = sorted(count_frequency.items(), key=lambda x: x[0])
+
+		return count_frequency_sort
+
+
+	#Zipfの法則	
+	def ss9(self):
+		'''
+		単語の出現頻度順位を横軸，その出現頻度を縦軸として，両対数グラフをプロットせよ．
+		'''
+		import matplotlib.pyplot as plt
+		import numpy as np
+		#日本語を表示するフォントを指定する
+		import matplotlib as mpl 
+		mpl.rcParams['font.family'] = 'AppleGothic'
+
+		frequency_2D_list = self.frequency_list()
+		frequency_list = []		#x軸:順位
+		word_count_list = []	#y軸:出現頻度
+		for i in range(len(frequency_2D_list)):
+			frequency_list.append(frequency_2D_list[i][0])
+			word_count_list.append(len(frequency_2D_list[i][1]))
+		
+		plt.xscale('log')
+		plt.yscale('log')
+
+		plt.xlim(1,len(frequency_list)+1)
+		plt.ylim(1,word_count_list[0])
+
+		x = frequency_list
+		y = word_count_list
+
+		plt.title("39. Zipfの法則")
+
+		plt.plot(x,y,'o')
+		plt.show()
+		
+		
 
 
 
