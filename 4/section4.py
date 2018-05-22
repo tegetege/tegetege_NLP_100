@@ -70,8 +70,9 @@ class Section_4():
 			print('base',':',self.morphemes[i][6])
 			print('pos',':',self.morphemes[i][0])
 			print('pos1',':',self.morphemes[i][1])
-			print('-------------------------')	
-		
+			print('-------------------------')
+
+
 	def make_data(self):
 
 		with open("neko.txt.mecab", "r") as f:
