@@ -9,6 +9,15 @@ class Section_5():
 	> cabocha neko.txt -o neko.txt.cabocha
 	'''
 
+	def __init__(self):
+		#文節番号とかをまとめたリストの取得
+		self.chunk_id_list =[]	#ss1にて取得
+		#文節ごとに区切ったリスト
+		self.chunk_word_list =[] #ss1にて取得
+		#係り元文節インデックスを集めたリスト
+		self.srcs_list = [] #ss1にて取得
+
+
 	#最初のデータ形成ステップを担当する関数
 	def make_data(self):
 		with open("neko.txt.cabocha", "r") as f:
@@ -20,9 +29,9 @@ class Section_5():
 		tg = data[2].replace('\u3000','')\
 					.replace(' ','')\
 					.replace('-','')\
-					.replace('D','')
+					.replace('D','')\
+					.replace('|','')
 		return tg 	#ターゲット文を返す
-
 
 	#係り受け解析結果の読み込み(形態素)
 	def ss0(self):
@@ -41,9 +50,11 @@ class Section_5():
 				res_line = line[1].split(',')
 				morph = Morph(line[0],res_line[6],res_line[0],res_line[1])
 				morph_list.append(morph.make_morph_str())
-		#第41問目として出力する場合
+		'''
+		#第40問目として出力する場合
 		for ans in morph_list:
 			print(ans)
+		'''
 		
 		#リストを返す関数として機能させる場合
 		return morph_list
@@ -63,36 +74,54 @@ class Section_5():
 								   .split('</chunk>\n')
 
 		#文節番号とかをまとめたリストを取得する
-		chunk_id_list = self.make_chunk_list(parsing)
+		self.chunk_id_list = self.make_chunk_list(parsing)
 		'''
 		chunk_id_list[i][0] : 文節番号
 		chunk_id_list[i][1] : 係り先の文節番号
 		要素2 ~ 5は課題に必要ないので割愛
 		'''
 		#文節ごとに区切ったリスト
-		chunk_word_list = self.make_chunk_set()
+		self.chunk_word_list = self.make_chunk_set()
 		#係り元文節インデックスを集めたリスト
-		srcs_list = self.make_srcs_list(chunk_id_list)
+		self.srcs_list = self.make_srcs_list()
 
+		'''
+		#第41問として回答を表示するときはココをコメントアウト
 		chunk_list=[]
-		for i in range(len(chunk_id_list)):
-			chunk = Chunk(chunk_id_list[i][0],chunk_word_list[i],srcs_list[i],chunk_id_list[i][1])
+		for i in range(len(self.chunk_id_list)):
+			chunk = Chunk(self.chunk_id_list[i][0],self.chunk_word_list[i],self.srcs_list[i],self.chunk_id_list[i][1])
 			chunk_list.append(chunk.make_format())
 
 		for ans in chunk_list:
 			print(ans)
+		'''
+		
+
+	#係り元と係り先の文節の表示
+	def ss2(self):
+		#クラス変数を作成する
+		tg_data = self.ss1()
+
+		for i in range(len(self.chunk_id_list)):
+			if int(self.chunk_id_list[i][1]) != -1:
+				dst = int(self.chunk_id_list[i][1])
+				print('{}\t{}'\
+			.format(self.chunk_word_list[i],self.chunk_word_list[dst]))
 
 	#係り元文節インデックス番号のリストを作成する関数
-	def make_srcs_list(self,chunk_id_list):
-		srcs_list = ['']*len(chunk_id_list)
+	def make_srcs_list(self):
+		srcs_list = ['']*len(self.chunk_id_list)
 		dst_list = []
-		for id_list in chunk_id_list :
+		for id_list in self.chunk_id_list :
 			#print('id : ',id_list[0])
 			#print('dst : ',id_list[1])
 			dst_list.append(id_list[1]) 
 		for i in range(len(dst_list)):
 			#strとして要素の加算を行う
-			srcs_list[int(dst_list[i])] += chunk_id_list[i][0]
+			srcs_list[int(dst_list[i])] += self.chunk_id_list[i][0]
+		#リストの各要素をリスト化する
+		for i in range(len(srcs_list)):
+			srcs_list[i] = list(srcs_list[i]) 
 		return srcs_list
 
 	#文節ごとに区切ってリストにする関数
@@ -153,7 +182,7 @@ class Chunk:
 		self.dst	= dst		#係り先文節インデックス番号
 
 	def make_format(self):
-	 	return '[{}]{}\tsrcs[{}]\tdst[{}]'\
+	 	return '[{}]{}\tsrcs{}\tdst[{}]'\
 			.format(self.id,self.morphs,self.srcs,self.dst)
 
 
