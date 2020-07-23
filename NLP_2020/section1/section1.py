@@ -55,8 +55,49 @@ class Section_1:
                 ans[i+1] = ''.join(list(target[i])[:2])
                 # print(list(target[i])[:2])
         print(ans)
+    
+    # n-gramを作成する関数を作成する
+    def ss5(self):
+        text = 'I am an NLPer'
+        self.n_gram('charactor', text, 2)
+        self.n_gram('word', text, 2)
+    
+    def ss6(self):
+        text_1 = 'paraparaparadise'
+        text_1 = set(self.n_gram('charactor', text_1, 2))
+        text_2 = 'paragraph'
+        text_2 = set(self.n_gram('charactor', text_2, 2))
+
+        # 和集合
+        print('和集合: ', text_1.union(text_2))
+
+        # 積集合
+        print('積集合: ', text_1.intersection(text_2))
+
+        # 差集合
+        print('差集合: ', text_1.difference(text_2))
 
 
+
+
+    # target :: character or word
+    def n_gram(self, target, target_text, num):
+        bi_gram = list()
+        if (target == 'charactor'): # 文字区切り
+            target_list = list(str(target_text))
+            for i in range(len(target_list) - num+1):
+                bi_gram.append(target_list[i] + target_list[i+1])
+        else: # 単語区切り
+            target_list = target_text.split(' ')
+            for i in range(len(target_list)):
+                # 前処理
+                target_list[i] = target_list[i].replace(',', '')
+                target_list[i] = target_list[i].replace('.', '')
+            for i in range(len(target_list) - num +1):
+                bi_gram.append(list([target_list[i], target_list[i+1]]))
+        # print(bi_gram)
+        return bi_gram
+            
         
 
 
