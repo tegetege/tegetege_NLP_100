@@ -1,5 +1,8 @@
 # https://nlp100.github.io/ja/ch01.html
 
+import string
+import random
+
 class Section_1:
     def ss0(self):
         text = 'stressed'
@@ -77,8 +80,60 @@ class Section_1:
         # 差集合
         print('差集合: ', text_1.difference(text_2))
 
+    def ss7(self):
+        # インプットの想定
+        x = 12
+        y = '気温'
+        z = 22.4
+        ans = self.template(x, y, z)
+        print(ans)
+    
+    def ss8(self):
+        target_1 = 'hogehoge'
+        target_2 = 'てげてげ'
+        print(self.cipher(target_1))
+        print(self.cipher(target_2))
+    
+    def ss9(self):
+        text = 'I couldn’t believe that I could actually understand what I was reading : the phenomenal power of the human mind .'
+        target = text.split(' ')
+        random_dict = dict()
+        target_list = list()
+        for i in range(len(target)):
+            # 前処理
+            target[i] = target[i].replace(',', '')
+            target[i] = target[i].replace('.', '')
+            # シャッフル対象のワードを洗い出す
+            if (len(target[i])) > 4:
+                random_dict[i] = i
+                target_list.append(i)
+        
+        # ランダム
+        random_list = random.sample(target_list, len(target_list))
+        for k in random_dict.keys():
+            random_dict[k] = random_list[0]
+            random_list.remove(random_list[0])
+
+        ans = list()
+        for i in range(len(target)):
+            if i in target_list:
+                ans.append(target[random_dict[i]])
+            else:
+                ans.append(target[i])
+        
+        ans = ' '.join(ans) + ' .'
+        print(ans)
 
 
+    def cipher(self, target):
+        target = list(target)
+        lowercase = list(string.ascii_lowercase)
+        for i in range(len(target)):
+            if target[i] in lowercase:
+                # ord: 文字コードへの変換
+                target[i] = chr(219 - ord(target[i]))
+        
+        return ''.join(target)
 
     # target :: character or word
     def n_gram(self, target, target_text, num):
@@ -97,6 +152,9 @@ class Section_1:
                 bi_gram.append(list([target_list[i], target_list[i+1]]))
         # print(bi_gram)
         return bi_gram
+    
+    def template(self, time, target, value):
+        return str(time) + '時の' + target + 'は' + str(value)
             
         
 
