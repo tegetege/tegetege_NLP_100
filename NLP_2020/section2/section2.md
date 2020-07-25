@@ -24,3 +24,31 @@ Hannah  F       18822   200
 .
 .
 ```
+
+## 12.1列目をcol1.txtに, 2列目をcol2.txtに保存
+```
+$cat popular-names.txt | cut -f 1 > col1.txt && cat popular-names.txt | cut -f 2 > col2.txt
+```
+
+## 13.col1.txt と col2.txt をマージ
+```
+$paste col1.txt col2.txt > merged_file.txt
+```
+
+## 14.先頭からN行を出力
+```
+$head -n 3 popular-names.txt 
+
+Mary    F       7065    1880
+Anna    F       2604    1880
+Emma    F       2003    1880
+```
+
+## 15.末尾のN行を出力
+```
+$tail -n 3 popular-names.txt 
+
+Lucas   M       12585   2018
+Mason   M       12435   2018
+Logan   M       12352   2018
+```
