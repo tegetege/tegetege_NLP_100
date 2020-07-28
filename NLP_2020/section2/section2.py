@@ -73,6 +73,26 @@ class Section_2:
         for i in range(-1, (target+1)*(-1), -1):
             print(i*(-1), ' : ', lines[i])
 
+    def ss6(self):
+        N = int(input('何分割にする？ : '))
+        data = self.file_read(self.path)
+        lines = data.split('\n')
+        print(N, '分割にする場合、一つ', (len(lines)-1) // N, '行' )
+    
+    def ss7(self):
+        data = self.file_read(self.path)
+        lines = data.split('\n')
+        target = lines[0]
+        print(set(target))
+    
+    def ss8(self):
+        data = self.file_read(self.path)
+        lis = data.split('\n')
+        lis.pop(-1)
+        lis_splited = list(map(lambda l : l.split('\t'),lis))
+        lis_sorted = sorted(lis_splited, reverse=True, key=lambda x: x[2])
+        print(lis_sorted[:10])
+
 num = input('サブセクション番号入力:')
 do  = Section_2()
 ss_num = 'ss' + str(num)
