@@ -25,7 +25,6 @@ class Section_2:
 
     def ss1(self):
         data = self.file_read(self.path)
-
         print(data.replace('\t',' '))
 
     def ss2(self):
@@ -82,7 +81,9 @@ class Section_2:
     def ss7(self):
         data = self.file_read(self.path)
         lines = data.split('\n')
-        target = lines[0]
+        lines.pop(-1)
+        lines_splited = list(map(lambda l : l.split('\t'), lines))
+        target = list(map(lambda l : l[0], lines_splited))
         print(set(target))
     
     def ss8(self):
