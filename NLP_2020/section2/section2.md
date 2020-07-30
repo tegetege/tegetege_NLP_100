@@ -62,7 +62,15 @@ $split -l 1000 popular-names.txt
 ```
 
 ## 17.１列目の文字列の異なり
+一列目を切り出し(cut)て並べ直し(sort)て重複をなくす(uniq)  
+(※)uniqコマンドはソート済みを前提をしているらしい
 ```
 $cut -f 1 popular-names.txt | sort | uniq
 ```
 
+## 18.各行を３コラム目の数値の降順にソート
+3コラム目(-k 3)を数値(n)として降順(r)にソートする  
+(※)[sortコマンド、基本と応用とワナ](https://qiita.com/richmikan@github/items/cc4494359b1ac2f72311#%E6%80%A7%E5%88%A5%E5%88%9D%E5%87%BA%E5%B9%B4%E9%80%86%E9%A0%86%E5%90%8D%E5%89%8D%E3%81%AE%E9%A0%86%E3%81%A7%E3%82%BD%E3%83%BC%E3%83%88%E3%81%9B%E3%82%88)
+```
+$sort -k 3rn popular-names.txt
+```
