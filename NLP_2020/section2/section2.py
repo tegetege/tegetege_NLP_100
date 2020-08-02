@@ -94,6 +94,27 @@ class Section_2:
         lis_sorted = sorted(lis_splited, reverse=True, key=lambda x: x[2])
         print(lis_sorted[:10])
 
+    def ss9(self):
+        data = self.file_read(self.path)
+        lis = data.split('\n')
+        lis.pop(-1)
+        lis = list(map(lambda l : l.split('\t'),lis))
+        lis = list(map(lambda l : l[0],lis)) # 1コラム目の文字列のリスト生成
+
+        # 利用頻度情報を入れた辞書作成
+        index_dict = dict()
+        for i in range(len(lis)):
+            if lis[i] in index_dict:
+                index_dict[lis[i]] += 1
+            else:
+                index_dict[lis[i]] = 1
+        # 辞書のソート(昇順しかできなかった...)
+        index_sorted = sorted(index_dict.items(), key=lambda x:x[1])
+        for i in range(len(index_sorted)-1, -1, -1):
+            print(index_sorted[i][0])
+        
+
+
 num = input('サブセクション番号入力:')
 do  = Section_2()
 ss_num = 'ss' + str(num)
