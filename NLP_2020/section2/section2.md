@@ -74,3 +74,12 @@ $cut -f 1 popular-names.txt | sort | uniq
 ```
 $sort -k 3rn popular-names.txt
 ```
+
+## 19.各行の1コラム目の文字列の出現頻度を求め、出現頻度の高い順に並べる
+
+`uniq -c` : 重複を無くして、カウントする  
+`sort -r` : カウントの降順でソート
+```
+$cut -f 1 popular-names.txt | sort | uniq -c | sort -r
+```
+参考: [単語の出現頻度を調べるシェルスクリプトメモ(3)](http://bigfatcat.hateblo.jp/entry/20070905/1188983899)
