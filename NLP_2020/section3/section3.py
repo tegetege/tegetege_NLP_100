@@ -34,7 +34,18 @@ class Section_3:
             match = re.match(pattern,target_list[i])
             if match:
                 print(target_list[i])
-        
+    
+    def ss2(self):
+        self.read_json()
+        target_list =  self.target.split('\n')
+        pattern = r'\[\[Category:'
+        for i in range(len(target_list)):
+            match = re.match(pattern,target_list[i])
+            if match:
+                print(target_list[i].replace('[[Category:', '').replace('|*', '').replace('|元', '').replace(']]', ''))
+
+
+
 
 num = input('サブセクション番号入力:')
 do  = Section_3()
