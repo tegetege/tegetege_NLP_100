@@ -60,11 +60,28 @@ class Section_3:
         # 参考:https://qiita.com/moriwo/items/badc6432cb925676089a#24-%E3%83%95%E3%82%A1%E3%82%A4%E3%83%AB%E5%8F%82%E7%85%A7%E3%81%AE%E6%8A%BD%E5%87%BA
         self.read_json()
         target_list = self.target.split('\n')
+        target_list.pop(-1)
 
         for i in range(len(target_list)):
             match = re.findall(r'\[\[(ファイル|File):([^]|]+?)(\|.*?)+\]\]', target_list[i])
             if match:
                 print('match:', match[0][1])
+    
+    def ss5(self):
+        self.read_json()
+        target_list = self.target.split('\n')
+        target_list.pop(-1)
+
+        res = dict()
+        for i in range(len(target_list)):
+            match_0 = re.findall(r'\w* = .*',target_list[i])
+            if len(match_0) != 0:
+                text_list = target_list[i].split('=')
+                res[text_list[0].replace('|','').replace(' ','')] = text_list[1].replace(' ','')
+        
+        for k in res.keys():
+            print(k, ':', res[k])
+
     
 
 num = input('サブセクション番号入力:')
