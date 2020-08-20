@@ -81,6 +81,51 @@ class Section_3:
         
         for k in res.keys():
             print(k, ':', res[k])
+    
+    def ss6(self):
+        self.read_json()
+        target_list = self.target.split('\n')
+        target_list.pop(-1)
+
+        res = dict()
+        for i in range(len(target_list)):
+            match_0 = re.findall(r'\w* = .*',target_list[i])
+            if len(match_0) != 0:
+                text_list = target_list[i].split('=')
+                target = text_list[1].replace(' ','')
+                res[text_list[0].replace('|','').replace(' ','')] = re.sub('\'*', '', target)
+        for k in res.keys():
+            print(k, ':', res[k])
+    
+    def ss7(self):
+        self.read_json()
+        target_list = self.target.split('\n')
+        target_list.pop(-1)
+
+        res = dict()
+        for i in range(len(target_list)):
+            match_0 = re.findall(r'\w* = .*',target_list[i])
+            if len(match_0) != 0:
+                text_list = target_list[i].split('=')
+                target = text_list[1].replace(' ','')
+                res[text_list[0].replace('|','').replace(' ','')] = re.sub('[\[* | \]* | \'*]', '', target)
+        for k in res.keys():
+            print(k, ':', res[k])
+
+    def ss8(self):
+        self.read_json()
+        target_list = self.target.split('\n')
+        target_list.pop(-1)
+
+        res = dict()
+        for i in range(len(target_list)):
+            match_0 = re.findall(r'\w* = .*',target_list[i])
+            if len(match_0) != 0:
+                text_list = target_list[i].split('=')
+                target = text_list[1].replace(' ','')
+                res[text_list[0].replace('|','').replace(' ','')] = re.sub('[\[* | \]* | \{* | \}* | \'*]', '', target)
+        for k in res.keys():
+            print(k, ':', res[k])
 
     
 
