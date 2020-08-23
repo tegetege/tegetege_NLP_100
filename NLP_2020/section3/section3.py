@@ -1,5 +1,6 @@
 import re
 import json
+import requests
 
 
 class Section_3:
@@ -126,8 +127,34 @@ class Section_3:
                 res[text_list[0].replace('|','').replace(' ','')] = re.sub('[\[* | \]* | \{* | \}* | \'*]', '', target)
         for k in res.keys():
             print(k, ':', res[k])
-
     
+    def ss9(self):
+        self.read_json()
+        target_list = self.target.split('\n')
+        target_list.pop(-1)
+
+        res = dict()
+        for i in range(len(target_list)):
+            match_0 = re.findall(r'\w* = .*',target_list[i])
+            if len(match_0) != 0:
+                text_list = target_list[i].split('=')
+                target = text_list[1]
+                res[text_list[0].replace('|','').replace(' ','')] = target
+
+
+        S = requests.Session()
+        params = {
+            'action': 'query',
+            'format': 'json',
+            'prop': 'imageinfo',
+            'titles': 'File:'+res['国旗画像'],
+            'iiprop': 'url'
+        }
+        R = S.get(url='https://en.wikipedia.org/w/api.php', params=params)
+        data = R.json()
+        pages = data['query']['pages']['23473560']['imageinfo'][0]['url']
+        print(pages)
+        
 
 num = input('サブセクション番号入力:')
 do  = Section_3()
