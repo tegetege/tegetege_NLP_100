@@ -69,6 +69,15 @@ class Section_4:
                 if self.list_formated[i][j]['pos'] == '動詞':
                     target.add(self.list_formated[i][j]['base'])
         print(target)
+    
+    def ss3(self):
+        self.neko_format()
+        for i in range(len(self.list_formated)):
+            for j in range(1, len(self.list_formated[i])-1):
+                if (self.list_formated[i][j]['surface'] == 'の' and self.list_formated[i][j-1]['pos'] == '名詞' and self.list_formated[i][j+1]['pos'] == '名詞'):
+                    print(self.list_formated[i][j-1]['surface'] + self.list_formated[i][j]['surface'] + self.list_formated[i][j+1]['surface'])
+
+
 
 num = input('サブセクション番号入力:')
 do  = Section_4()
