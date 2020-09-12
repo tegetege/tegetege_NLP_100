@@ -1,10 +1,14 @@
 import MeCab
+import matplotlib as mpl
+import matplotlib.pyplot as plt
+mpl.rcParams['font.family'] = 'MS Gothic'
 
 class Section_4:
     def __init__(self):
         self.mecab = MeCab.Tagger('-d /usr/local/lib/mecab/dic/mecab-ipadic-neologd')
         self.target = list()
         self.list_formated = list()
+        self.word_freq_sorted = list()
     
     # neko.txt を mecab にかけた neko.txt.mecab を作成
     # 解析結果
@@ -46,6 +50,18 @@ class Section_4:
             except IndexError:
                 pass
         print('neko.txt.mecab format goal.')
+
+    # 単語の出現頻度を求める
+    def make_word_freq(self):
+        word_freq = dict()
+        for i in range(len(self.list_formated)):
+            for j in range(len(self.list_formated[i])):
+                if (self.list_formated[i][j]['surface'] in word_freq):
+                    word_freq[self.list_formated[i][j]['surface']] += 1
+                else:
+                    word_freq[self.list_formated[i][j]['surface']] = 1
+        
+        self.word_freq_sorted = sorted(word_freq.items(), key=lambda x:x[1], reverse=True)
     
     def ss0(self):
         self.neko_format()
@@ -76,6 +92,43 @@ class Section_4:
             for j in range(1, len(self.list_formated[i])-1):
                 if (self.list_formated[i][j]['surface'] == 'の' and self.list_formated[i][j-1]['pos'] == '名詞' and self.list_formated[i][j+1]['pos'] == '名詞'):
                     print(self.list_formated[i][j-1]['surface'] + self.list_formated[i][j]['surface'] + self.list_formated[i][j+1]['surface'])
+
+    def ss4(self):
+        self.neko_format()
+        target = list()
+        ans = []
+        for i in range(len(self.list_formated)):
+            for j in range(len(self.list_formated[i])-1):
+                if (self.list_formated[i][j]['pos'] == '名詞'):
+                    if (self.list_formated[i][j+1]['pos'] == '名詞'):
+                        target.append(self.list_formated[i][j]['surface'])
+                        continue
+                    else:
+                        target.append(self.list_formated[i][j]['surface'])
+                        break
+            if len(ans) < len(target):
+                ans = target
+            target = list()
+        print(ans)
+    
+    def ss5(self):
+        self.neko_format()
+        self.make_word_freq()
+        for i in range(10):
+            print(self.word_freq_sorted[i])
+    
+    def ss6(self):
+        self.neko_format()
+        self.make_word_freq()
+        # 上位10のmapを取り出して、そのkey,valueのリストを作成する
+        target_key = list(map(lambda x: x[0], self.word_freq_sorted[:10]))
+        target_value = list(map(lambda x: x[1], self.word_freq_sorted[:10]))
+        rank = list(range(10))
+
+
+        plt.bar(rank, target_value, tick_label=target_key)
+        plt.title(' 単語の出現頻度 上位10 ')
+        plt.show()
 
 
 
