@@ -176,16 +176,7 @@ class Section_4:
         
         freq_num = list(range(1, self.word_freq_sorted[0][1]+1))
         kind_num = list()
-        # for i in range(len(freq_num)):
-        #     count = 0
-        #     for j in range(len(self.word_freq_sorted)):
-        #         if self.word_freq_sorted[j][1] == freq_num[i]:
-        #             count += 1
-        #     kind_num.append(count)
-        #     print(freq_num[i])
-        # # print(freq_num)
-        # # print(kind_num)
-
+        # 出現頻度を集めたリスト作成
         counts = list(map(lambda x: x[1], self.word_freq_sorted))
         
         # ヒストグラム表示
@@ -196,6 +187,31 @@ class Section_4:
         plt.ylabel('単語の種類数')
         plt.show()
 
+    def ss9(self):
+        self.neko_format()
+        self.make_word_freq()
+
+        # 出現頻度を集めたリスト作成
+        counts = list(map(lambda x: x[1], self.word_freq_sorted))
+
+        # 散布図 x: 順位  y: 出現頻度
+        plt.scatter(range(1, len(counts)+1), counts)
+
+        # 軸の値の範囲調整
+        plt.xlim(1,len(counts) + 1)
+        plt.ylim(1, counts[0])
+
+        # 両対数指定
+        plt.xscale('log')
+        plt.yscale('log')
+
+        plt.title('Zipfの法則')
+        plt.xlabel('出現頻度順位')
+        plt.ylabel('出現頻度')
+        
+        plt.grid(axis='both')
+        plt.show()
+        
 
 
 
