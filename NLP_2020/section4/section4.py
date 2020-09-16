@@ -22,6 +22,7 @@ class Section_4:
         f.write(self.mecab.parse(data))
         print('書き込み完了')
 
+    # self.target : "\n"でsplitした内容
     def read_neko_mecab(self):
         f = open('neko.txt.mecab', 'r')
         data = f.read()
@@ -53,6 +54,7 @@ class Section_4:
         print('neko.txt.mecab format goal.')
 
     # 単語の出現頻度を求める
+    # self.word_freq_sorted : 単語の出現頻度情報(降順)
     def make_word_freq(self):
         word_freq = dict()
         for i in range(len(self.list_formated)):
@@ -64,6 +66,8 @@ class Section_4:
         
         self.word_freq_sorted = sorted(word_freq.items(), key=lambda x:x[1], reverse=True)
     
+    # "猫"との共起頻度を求める
+    # self.neko_cooccurrence_freq_sorted : "猫"との共起頻度情報(降順)
     def neko_cooccurrence_freq(self):
         neko_cooccurrence_freq = dict()
         for i in range(len(self.list_formated)):
@@ -163,6 +167,41 @@ class Section_4:
         plt.bar(rank, target_value, tick_label=target_key)
         plt.title(' "猫" との共起頻度 上位10 ')
         plt.show()
+
+    # x軸: 出現頻度、1から単語の出現頻度の最大値までの線形目盛り
+    # y軸: x軸で示される出現頻度となった単語の異なり数(種類数)
+    def ss8(self):
+        self.neko_format()
+        self.make_word_freq()
+        
+        freq_num = list(range(1, self.word_freq_sorted[0][1]+1))
+        kind_num = list()
+        # for i in range(len(freq_num)):
+        #     count = 0
+        #     for j in range(len(self.word_freq_sorted)):
+        #         if self.word_freq_sorted[j][1] == freq_num[i]:
+        #             count += 1
+        #     kind_num.append(count)
+        #     print(freq_num[i])
+        # # print(freq_num)
+        # # print(kind_num)
+
+        counts = list(map(lambda x: x[1], self.word_freq_sorted))
+        
+        # ヒストグラム表示
+        # ほとんごの単語は出現頻度20以下のため、グラフが見えるように工夫
+        plt.hist(counts, bins=20, range=(1,20))
+        plt.title('ヒストグラム')
+        plt.xlabel('出現頻度')
+        plt.ylabel('単語の種類数')
+        plt.show()
+
+
+
+
+
+
+
 
 
 
