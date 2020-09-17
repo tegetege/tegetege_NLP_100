@@ -213,14 +213,6 @@ class Section_4:
         plt.show()
         
 
-
-
-
-
-
-
-
-
 num = input('サブセクション番号入力:')
 do  = Section_4()
 ss_num = 'ss' + str(num)
