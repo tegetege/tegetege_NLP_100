@@ -1,8 +1,10 @@
 import CaboCha
+from morph import Morph
 
 class Section_5:
     def __init__(self):
-        pass
+        # self.parse_text() # ai.ja.txtをparseする
+        self.morph = Morph()
     
     # ai.ja.txtを係り受け解析をする
     def parse_text(self):
@@ -18,9 +20,9 @@ class Section_5:
         for i in range(len(parse_target)):
             f_w.write(c.parse(parse_target[i]).toString(CaboCha.FORMAT_LATTICE))
         f_w.close()
-
+        
     def ss0(self):
-        self.parse_text()
+        self.morph.parse()
 
 num = input('サブセクション番号入力:')
 do = Section_5()
